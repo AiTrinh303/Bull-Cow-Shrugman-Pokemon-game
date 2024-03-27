@@ -43,6 +43,16 @@ function createCashCounter() {
       }
       return acc;
     }, []);
+
+    //Ai : check if there is enough note or coin in cashBox
+    let canContinue = cashBox.every(item => {
+        let denomination = parseFloat(Object.keys(item)[0]);
+        return (cashBackTotal / denomination >= 1 && Object.values(item)[0] >= 1);
+      });
+  
+      if (!canContinue) {
+        return { change: "Not enough change in cash box", cashBox };
+      }
     return {change, cashBox};
   };
 }
@@ -54,3 +64,4 @@ console.log(cashCounter(2.35, 5));
 console.log(cashCounter(23.90, 50));
 console.log(cashCounter(4.77, 20));
 console.log(cashCounter(2.35, 5));
+console.log(cashCounter(10, 560)); // Test case: Not enough change in cash box
