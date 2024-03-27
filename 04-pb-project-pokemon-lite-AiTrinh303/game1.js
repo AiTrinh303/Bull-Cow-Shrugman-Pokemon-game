@@ -113,24 +113,14 @@ const newPokemons = Pokemons.map(pokemon => {pokemon.wins = 0; return pokemon;})
 
 
 //========================================================================================================
-
-//Task: find strongest Pokemon of
-
 //find the Pokemon with name
 function findPokemonByName(name) {
     return newPokemons.find(pokemon => pokemon.name === name);
   }
+  
 //function to modify the battle between two Pokemons  
-function attack(name1, name2) {
-    const Pokemon1 = findPokemonByName(name1);
-    const Pokemon2 = findPokemonByName(name2);
-    if (!Pokemon1 || !Pokemon2) {
-        console.log("Pokemon not found!");
-        return;
-      }
-    Pokemon2.health -= Pokemon1.magic;
-    console.log(`${Pokemon1.name} attacks ${Pokemon2.name} with ${Pokemon1.magic} magic!`);
-    
+function attack(Pokemon1, Pokemon2) {
+    Pokemon2.health -= Pokemon1.magic;      
     if (Pokemon2.health <= 0) {
       return true; // Pokemon2 is defeated
     }
@@ -141,104 +131,58 @@ function attack(name1, name2) {
     function battle(name1, name2) {
         const Pokemon1 = findPokemonByName(name1);
         const Pokemon2 = findPokemonByName(name2);
-        if (!Pokemon1 || !Pokemon2) {
-            console.log("Pokemon not found!");
-            return;
-          }
-
-        console.log(`${Pokemon1.name} vs ${Pokemon2.name}!`);
-
+        
+        //console.log(`${Pokemon1.name} vs ${Pokemon2.name}!`);
         while (Pokemon1.health > 0 && Pokemon2.health > 0) {
-            if (attack(name1, name2)) {
-                console.log(`${Pokemon1.name} has won the battle!`);
-                console.log('-------------------');
-                break;
+            if (attack(Pokemon1, Pokemon2)) {              
+              console.log(`${Pokemon1.name} has won the battle!`);           
+              break;
             }
-            if (attack(name2, name1)) {
-                console.log(`${Pokemon2.name} has won the battle!`);
-                console.log('-------------------');
-                break;
+            if (attack(Pokemon2, Pokemon1)) {              
+              console.log(`${Pokemon2.name} has won the battle!`);
+              break;
             }
         }
     }
 
 //Test the function
-// battle('Mankey', 'Snubbull');
-// console.log('-------------------');
-// battle('Poliwhirl', 'Tyranitar');
+//  battle('Mankey', 'Snubbull');
+//  console.log('-------------------');
+//  battle('Poliwhirl', 'Tyranitar');
+//  console.log('-------------------');
 
-//Use for ..loop...
-//Task: find the strongest Pokemon of all Pokemons- the one with the most wins
-function strongestPokemon(array) {
-    for (let i = 0; i < array.length-1; i++) {
-        for (let j = 1; j < array.length; j++) {
-            battle(array[i].name, array[j].name);
-                if (attack(array[i].name, array[j].name)) {
-                    array[i].wins++;
-                }else{
-                    array[j].wins++;
-                }
 
-            }
-        }
+//========================================================================================================
+//Task: find the strongest Pokemon(s) with the most wins
 
-    let maxWins = array[0].wins;
-    let strongest = [array[0]];
+// Function to count the number of wins for all Pokemon in the newPokemons array
+function countAllWins() {
+  // Loop through each Pokemon in the newPokemons array
+  for (let i = 0; i < newPokemons.length-1; i++) {
+      const currentPokemon = newPokemons[i]; // Get the current Pokemon
 
-    for (let i = 1; i < array.length; i++) {
-        if (array[i].wins > maxWins) {
-            maxWins = array[i].wins;
-            strongest = [array[i]];
-        } else if (array[i].wins === maxWins) {
-            strongest.push(array[i]);
-        }
-    }
-
-    console.log('-------------------');
-    array.forEach(pokemon => {
-        console.log(`${pokemon.name}: ${pokemon.wins} wins`);
-    });
-    console.log('-------------------');
-
-    console.log(`Strongest Pokemon(s) with ${maxWins} wins:`);
-    strongest.forEach(pokemon => {
-        console.log(`${pokemon.name}`);
-    });
+      // Loop through each remaining Pokemon starting from the next one
+      for (let j = i + 1; j < newPokemons.length; j++) {
+          const opponentPokemon = newPokemons[j]; // Get the opponent Pokemon
+          battle(currentPokemon.name, opponentPokemon.name); // Simulate a battle between currentPokemon and opponentPokemon
+          if (attack(currentPokemon, opponentPokemon)) {
+              currentPokemon.wins++; // Increment the number of wins for the current Pokemon
+          } else {
+              opponentPokemon.wins++; // Increment the number of wins for the opponent Pokemon
+          }
+      }
+  }
 }
+countAllWins();
 
-strongestPokemon(newPokemons);
+// find the strongest Pokemon(s) with the most wins
+let maxWins = Math.max(...newPokemons.map(pokemon => pokemon.wins));
+let strongest = newPokemons.filter(pokemon => pokemon.wins === maxWins);
+
+console.log('-------------------');
+console.log("Total number of wins for each Pokemon:");
+newPokemons.forEach(pokemon => {console.log(`${pokemon.name}: ${pokemon.wins} wins`);});
 console.log('-------------------');
 
-
-// Add key level to each Pokemon in array Pokemons and set it to 1 use map method
-const newPokemons1 = Pokemons.map(pokemon => {pokemon.level = 1; return pokemon;});
-
-
-//Task: write the function levelUp for Pokemons, condition for leveling up: each of 10 wins the Pokemon gets 1 level up,when Pokemon levelUp, its heath and magic increase by 20%. When the Pokemon reaches level 10, it can't level up anymore!!!
-function levelUp(pokemon) {
-  if (pokemon.level === 10) {
-      console.log(`${pokemon.name} has reached the maximum level!`);
-      return;
-  }
-  
-  pokemon.wins++; // Increment wins regardless of level
-  
-  if (pokemon.wins % 10 === 0) {
-      pokemon.level++;
-      pokemon.health += pokemon.health * 0.2;
-      pokemon.magic += pokemon.magic * 0.2;
-      console.log(`${pokemon.name} leveled up to level ${pokemon.level}!`);
-  }
-}
-
-//Function to print the information of the Pokemon about level
-function printInfo(pokemon) {
-  console.log(`${pokemon.name} is at level ${pokemon.level} with ${pokemon.wins} wins.`);
- }
-
-//Test the function printInfo for each Pokemon in array newPokemons1
-
-newPokemons1.forEach(pokemon => {
-  levelUp(pokemon);
-  return printInfo(pokemon);
-});
+console.log(`Strongest Pokemon(s) with ${maxWins} wins:`);
+strongest.forEach(pokemon => {console.log(`${pokemon.name}`);});
