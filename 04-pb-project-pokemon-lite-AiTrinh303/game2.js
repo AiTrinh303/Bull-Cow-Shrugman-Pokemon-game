@@ -195,7 +195,6 @@ function attack(name1, name2) {
     }
 }
 
-
 //function to battle between two Players- if the player has at least 2 wins (each of players can take the pokemon and make the battle with pokemon of opponent player), the player wins!
 
 function battleBetweenPlayers(player1, player2) {
@@ -212,11 +211,13 @@ function battleBetweenPlayers(player1, player2) {
             wins2++;
         }
       }
-    if (wins1 > wins2) {
-        console.log(`${player1.name} wins the battle!`);}
-    else {
+      if (wins1 > wins2) {
+        console.log(`${player1.name} wins the battle!`);
+      } else if (wins2 > wins1) {
         console.log(`${player2.name} wins the battle!`);
-    }
+      } else {
+        console.log(`It's a draw between ${player1.name} and ${player2.name}!`);
+      }
 }
 
 //Test the function
