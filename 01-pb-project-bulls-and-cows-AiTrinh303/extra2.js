@@ -119,14 +119,14 @@ function evaluateGuess(secret, guess) {
     return { bulls, cows };
   }
 
-// 7.1 Function to get a hint
+// 8. Function to get a hint
 function getHint(secret, guessed) {
     const remainingDigits = secret.split('').filter(digit => !guessed.includes(digit));
     const randomIndex = Math.floor(Math.random() * remainingDigits.length);
     return remainingDigits[randomIndex];
   }
   
-// 8. Updated playTheGame function
+// 9. PlayTheGame function
 function playTheGame(level) {
     let secretNumber = getRandomNumber(level);
     let attempts = 0;
@@ -197,9 +197,8 @@ function playTheGame(level) {
     }
   }
   
-  
 
-// 9. Function start the game
+// 10. Function start the game
 function start() {
   let level = levelSelector();
   while (level === false) {
