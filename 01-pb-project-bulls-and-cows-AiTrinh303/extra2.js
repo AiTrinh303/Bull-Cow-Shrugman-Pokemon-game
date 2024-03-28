@@ -119,43 +119,85 @@ function evaluateGuess(secret, guess) {
     return { bulls, cows };
   }
 
-// 8. Main function of the game
-
-function playTheGame(level) {
-  let secretNumber = getRandomNumber(level);
-  let attempts = 0;
-  console.log("\n");
-  while (true) {
-    attempts++;
-    guess = prompt(`Enter your guess (${level} unique digits): `);
-    guess = guess.trim();
-
-    // Check the validity of the guess
-    if (!validGuess(guess, level)) {
-      continue;
-    }
-
-    // if the guess is the same number as the secretNumber then you won message will be print and also the attempts
-    if (secretNumber === guess) {
-      console.log(
-        attempts === 1
-          ? `you won at your first attempt well done ${findTheUser}`
-          : `You won after ${attempts} attempts very well done ${findTheUser} `
-      );
-      break;
-    }
-
-    let { bulls, cows } = evaluateGuess(secretNumber, guess);
-    // if the user don't find anything then it will print a random cheer message or if the user find a cow or a bull it will print the number of cows and bulls
-    if (bulls === 0 && cows === 0) {
-      console.log("\n", randomMessage(), "\n");
-    }
-    console.log(
-      cows === 1 ? `You found ${cows} cow &&` : `You found ${cows} cows &&`,
-      bulls === 1 ? `You found ${bulls} bull` : `You found ${bulls} bulls `
-    );   
+// 7.1 Function to get a hint
+function getHint(secret, guessed) {
+    const remainingDigits = secret.split('').filter(digit => !guessed.includes(digit));
+    const randomIndex = Math.floor(Math.random() * remainingDigits.length);
+    return remainingDigits[randomIndex];
   }
-}
+  
+// 8. Updated playTheGame function
+function playTheGame(level) {
+    let secretNumber = getRandomNumber(level);
+    let attempts = 0;
+    let hintCount = 0; // Track the number of hints used
+    let guessedDigits = [];
+  
+    console.log("\n");
+  
+    while (true) {
+      attempts++;
+      let guess = prompt(`Enter your guess (${level} unique digits), or type 'hint' to get a hint: `);
+      guess = guess.trim();
+  
+      // Check if user wants a hint
+      if (guess.toLowerCase() === 'hint') {
+        if (hintCount < level - 1) { // Allow hint if not used more than level - 1 times
+          hintCount++;
+          let hint = getHint(secretNumber, guessedDigits);
+          console.log(`Hint: One of the remaining digits is '${hint}'`);
+          continue;
+        } else {
+          console.log(`You've used all available hints! Make your guess.`);
+          continue;
+        }
+      }
+  
+      // Check the validity of the guess
+      if (!validGuess(guess, level)) {
+        continue;
+      }
+  
+      guessedDigits.push(...guess); // Store guessed digits
+  
+      // if the guess is the same number as the secretNumber then you won message will be print and also the attempts
+      if (secretNumber === guess) {
+        console.log(
+          attempts === 1
+            ? `You won at your first attempt! Well done, ${findTheUser}!`
+            : `You won after ${attempts} attempts with ${hintCount} hints! Very well done, ${findTheUser}!`
+        );
+        
+        // Check if player wants to play again
+        let playAgainTheGame = "";
+        while (playAgainTheGame.toUpperCase() !== "Y" && playAgainTheGame.toUpperCase() !== "N") {
+          playAgainTheGame = prompt("Do you want to play again? Y/N: ");
+          if (playAgainTheGame.toUpperCase() === "Y") {
+            console.clear();
+            start();
+          } else if (playAgainTheGame.toUpperCase() === "N") {
+            console.log(`\n Thanks for playing ${findTheUser} `);
+            return;
+          } else {
+            console.log("Invalid input. Please enter Y or N.");
+          }
+        }
+        break;
+      }
+  
+      let { bulls, cows } = evaluateGuess(secretNumber, guess);
+      // if the user don't find anything then it will print a random cheer message or if the user find a cow or a bull it will print the number of cows and bulls
+      if (bulls === 0 && cows === 0) {
+        console.log("\n", randomMessage(), "\n");
+      }
+      console.log(
+        cows === 1 ? `You found ${cows} cow &&` : `You found ${cows} cows &&`,
+        bulls === 1 ? `You found ${bulls} bull` : `You found ${bulls} bulls `
+      );
+    }
+  }
+  
+  
 
 // 9. Function start the game
 function start() {
