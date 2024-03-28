@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 //not finished yet
+=======
+//NOT FINISH THIS EXTRA :((
+>>>>>>> 1c57d94762bf601ae0a56ba28e72458675f1015c
 
 const prompt = require("prompt-sync")({ sigint: true });
 
