@@ -1,4 +1,4 @@
-//game has 4 level and when the player play game, he/she can take hint
+//game has 4 level and when the player play game h
 
 const prompt = require("prompt-sync")({ sigint: true });
 

@@ -1,4 +1,4 @@
-//game has 4 level and when the player play game, he/she can take hint
+//not finished yet -
 
 const prompt = require("prompt-sync")({ sigint: true });
 
@@ -23,29 +23,80 @@ function getRandomNumber(level) {
     .slice(0, level);
 }
 
-// 2. Function specifies the level of the game the level value will be used in the 1st function
+// Function to select the level of the game with configurable conditions
 function levelSelector() {
-  level = prompt("Choose your level easy (ES), medium (M), hard (H) or extreme (EX): ");
-  if (level.toLowerCase() === "easy" || level.toLowerCase() === "es"){
-    level = 3;
-    console.log(`\nSo easy level then guess a ${level} digit number!!Good luck ${findTheUser}`);
-  } else if (level.toLowerCase() === "medium" || level.toLowerCase() === "m") {
-    level = 4;
-    console.log(`\nSo medium level then guess a ${level} digit number!!Good luck ${findTheUser}`);
-  } else if (level.toLowerCase() === "hard" || level.toLowerCase() === "h"){
-    level = 5;
-    console.log(`\nSo hard level then guess a ${level} digit number!!Good luck ${findTheUser}`);
-  } else if (level.toLowerCase() === "extreme" || level.toLowerCase() === "ex"){
-    level = 6;
-    console.log(`\nSo extreme level then guess a ${level} digit number!!you are brave ${findTheUser}`);
-  } else {
-    level = false;
-    console.log(
-      "\nThe level should be: easy (ES), medium (M), hard (H) or extreme (EX)!"
-    );
+    let level, maxAttempts;
+    
+    // Prompts the user to choose a level
+    const userInput = prompt("Choose your level: easy (ES), easy+ (ES+), medium (M), medium+ (M+), hard (H), hard+ (H+), extreme (EX), or extreme+ (EX+): ");
+    
+    // Set level and maxAttempts based on user input
+    switch (userInput.toLowerCase()) {
+      case "easy":
+      case "es":
+        level = 3; // 3-digit number
+        maxAttempts = Infinity; // No limit on attempts
+        console.log(`\nEasy level: Guess a ${level}-digit number! No limit on attempts. Good luck!`);
+        break;
+      
+      case "easy+":
+      case "es+":
+        level = 3; // 3-digit number
+        maxAttempts = 15; // 15 attempts limit
+        console.log(`\nEasy+ level: Guess a ${level}-digit number! You have ${maxAttempts} attempts. Good luck!`);
+        break;
+      
+      case "medium":
+      case "m":
+        level = 4; // 4-digit number
+        maxAttempts = Infinity; // No limit on attempts
+        console.log(`\nMedium level: Guess a ${level}-digit number! No limit on attempts. Good luck!`);
+        break;
+      
+      case "medium+":
+      case "m+":
+        level = 4; // 4-digit number
+        maxAttempts = 25; // 25 attempts limit
+        console.log(`\nMedium+ level: Guess a ${level}-digit number! You have ${maxAttempts} attempts. Good luck!`);
+        break;
+      
+      case "hard":
+      case "h":
+        level = 5; // 5-digit number
+        maxAttempts = Infinity; // No limit on attempts
+        console.log(`\nHard level: Guess a ${level}-digit number! No limit on attempts. Good luck!`);
+        break;
+      
+      case "hard+":
+      case "h+":
+        level = 5; // 5-digit number
+        maxAttempts = 35; // 35 attempts limit
+        console.log(`\nHard+ level: Guess a ${level}-digit number! You have ${maxAttempts} attempts. Good luck!`);
+        break;
+      
+      case "extreme":
+      case "ex":
+        level = 6; // 6-digit number
+        maxAttempts = Infinity; // No limit on attempts
+        console.log(`\nExtreme level: Guess a ${level}-digit number! No limit on attempts. Good luck!`);
+        break;
+      
+      case "extreme+":
+      case "ex+":
+        level = 6; // 6-digit number
+        maxAttempts = 45; // 45 attempts limit
+        console.log(`\nExtreme+ level: Guess a ${level}-digit number! You have ${maxAttempts} attempts. Good luck!`);
+        break;
+      
+      default:
+        level = false;
+        maxAttempts = 0;
+        console.log("\nThe level should be: easy (ES), easy+ (ES+), medium (M), medium+ (M+), hard (H), hard+ (H+), extreme (EX), or extreme+ (EX+)!");
+    }
+    
+    // Return an object containing level and maxAttempts
+    return {level:level, maxAttempts:maxAttempts};
   }
-  return level;
-}
 
 // 3. Function will ask the user if knows the rules
 
@@ -68,7 +119,7 @@ function randomMessage() {
         "You're not quite there yet! Keep guessing!",
         "No bulls or cows this time! But you're on the right track!",
         "Just a friendly reminder that I believe in you.",
-         "I predict a big win at the next guess",
+        "I predict a big win at the next guess",
         "Crossing my fingers for you! Go, go, go",
     ];
   return cheerMessage[Math.floor(Math.random() * cheerMessage.length)];
@@ -121,70 +172,31 @@ function evaluateGuess(secret, guess) {
     return { bulls, cows };
   }
 
-// 8. Function to get a hint
-function getHint(secret, guessed) {
-    const remainingDigits = secret.split('').filter(digit => !guessed.includes(digit));
-    const randomIndex = Math.floor(Math.random() * remainingDigits.length);
-    return remainingDigits[randomIndex];
-  }
-  
-// 9. PlayTheGame function
+
+// 8. Main function of the game
 function playTheGame(level) {
     let secretNumber = getRandomNumber(level);
     let attempts = 0;
-    let hintCount = 0; // Track the number of hints used
-    let guessedDigits = [];
-  
     console.log("\n");
-  
-    while (true) {
+   
+    while (attempts < levelSelector().maxAttempts) {
       attempts++;
-      let guess = prompt(`Enter your guess (${level} unique digits), or type 'hint' to get a hint: `);
+      let guess = prompt(`Enter your guess (${level} unique digits): `);
       guess = guess.trim();
-  
-      // Check if user wants a hint
-      if (guess.toLowerCase() === 'hint') {
-        if (hintCount < level - 1) { // Allow hint if not used more than level - 1 times
-          hintCount++;
-          let hint = getHint(secretNumber, guessedDigits);
-          console.log(`Hint: One of the remaining digits is '${hint}'`);
-          continue;
-        } else {
-          console.log(`You've used all available hints! Make your guess.`);
-          continue;
-        }
-      }
   
       // Check the validity of the guess
       if (!validGuess(guess, level)) {
         continue;
       }
   
-      guessedDigits.push(...guess); // Store guessed digits
-  
       // if the guess is the same number as the secretNumber then you won message will be print and also the attempts
       if (secretNumber === guess) {
         console.log(
           attempts === 1
-            ? `You won at your first attempt! Well done, ${findTheUser}!`
-            : `You won after ${attempts} attempts with ${hintCount} hints! Very well done, ${findTheUser}!`
+            ? `You won at your first attempt! Well done ${findTheUser}`
+            : `You won after ${attempts} attempts! Very well done ${findTheUser} `
         );
-        
-        // Check if player wants to play again
-        let playAgainTheGame = "";
-        while (playAgainTheGame.toUpperCase() !== "Y" && playAgainTheGame.toUpperCase() !== "N") {
-          playAgainTheGame = prompt("Do you want to play again? Y/N: ");
-          if (playAgainTheGame.toUpperCase() === "Y") {
-            console.clear();
-            start();
-          } else if (playAgainTheGame.toUpperCase() === "N") {
-            console.log(`\n Thanks for playing ${findTheUser} `);
-            return;
-          } else {
-            console.log("Invalid input. Please enter Y or N.");
-          }
-        }
-        break;
+        return; // End the game
       }
   
       let { bulls, cows } = evaluateGuess(secretNumber, guess);
@@ -195,18 +207,20 @@ function playTheGame(level) {
       console.log(
         cows === 1 ? `You found ${cows} cow &&` : `You found ${cows} cows &&`,
         bulls === 1 ? `You found ${bulls} bull` : `You found ${bulls} bulls `
-      );
-    }
+      );   
+    }  
+    // If the loop ends, it means the user did not guess the number within maxAttempts
+    console.log(`\nGame over! You couldn't guess the number in ${getMaxAttempts(level)} attempts. The secret number is: ${secretNumber}`);
   }
-  
 
-// 10. Function start the game
+
+// 9. Function start the game
 function start() {
-  let level = levelSelector();
+    const { level, maxAttempts } = levelSelector();
   while (level === false) {
     level = levelSelector();
   }
-  playTheGame(level);
+  playTheGame(level, maxAttempts);
   playAgain();
 }
 start();
