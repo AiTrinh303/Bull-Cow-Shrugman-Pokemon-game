@@ -1,3 +1,5 @@
+//NOT FINISH THIS EXTRA :((
+
 const prompt = require("prompt-sync")({ sigint: true });
 
 // storing variables
