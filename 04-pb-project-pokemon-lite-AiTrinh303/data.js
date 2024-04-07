@@ -30,7 +30,7 @@ const pokemonNames = [
     "Kirlia", "Gardevoir", "Surskit", "Masquerain", "Shroomish", "Breloom", "Slakoth", "Vigoroth", "Slaking", "Nincada",
     "Ninjask", "Shedinja", "Whismur", "Loudred", "Exploud", "Makuhita", "Hariyama", "Azurill", "Nosepass", "Skitty]"]
   
-console.log(pokemonNames.length); // 300
+//console.log(pokemonNames.length); // 300
 
 // Array contains 50 skills of Pokemon (In real Pokemon world, there are 728 skills)
 const skillNames = [
@@ -46,16 +46,16 @@ const skillNames = [
     "Recover", "Dragon Dance", "Bulk Up", "Swords Dance", "Calm Mind"
 ];
 
-console.log(skillNames.length); // 50
+//console.log(skillNames.length); // 50
 
-//Array contains 18 types of Pokemon
-const pokemonTypes = [
-    "Normal", "Fire", "Water", "Electric", "Grass",
-    "Ice", "Fighting", "Poison", "Ground", "Flying",
-    "Psychic", "Bug", "Rock", "Ghost", "Dragon",
-    "Dark", "Steel", "Fairy"];
+// //Array contains 18 types of Pokemon
+// const pokemonTypes = [
+//     "Normal", "Fire", "Water", "Electric", "Grass",
+//     "Ice", "Fighting", "Poison", "Ground", "Flying",
+//     "Psychic", "Bug", "Rock", "Ghost", "Dragon",
+//     "Dark", "Steel", "Fairy"];
 
-console.log(pokemonTypes.length); // 18
+// console.log(pokemonTypes.length); // 18
 
 
 // Function to get a random element from an array
@@ -64,40 +64,45 @@ function getRandomElement(array) {
     return array[randomIndex];
 }
 
+//Function to get a random integer between min and max
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 // Function to create a random Pokemon
 function createRandomPokemon() {
     const randomName = getRandomElement(pokemonNames);
-    const numSkills = Math.floor(Math.random() * 2) + 1; // Random skills from 1 to 2
-    const randomSkills = Array.from({ length: numSkills }, () => getRandomElement(skillNames));
-    
-    
-    const randomHealth = Math.floor(Math.random() * (200 - 50 + 1)) + 50; // Random health from 50 to 200   
-    const randomMagic = Math.floor(Math.random() * 151); // Random magic from 0 to 150
-    const numTypes = Math.floor(Math.random() * 3) + 1; // Random types from 1 to 3
-    const randomTypes = Array.from({ length: numTypes }, () => getRandomElement(pokemonTypes));
-
-    
+    const randomHealth = getRandomInt(100, 300); // Random health from 100 to 300   
+    const randomMagic = getRandomInt(50, 150); // Random magic from 50 to 150
+    const numSkills = getRandomInt(1, 2); // Random skills from 1 to 2
+    const randomSkills = Array.from({ length: numSkills }, () => getRandomElement(skillNames));  
+        
     return {
         name: randomName,
-        skills: randomSkills,
         health: randomHealth,
         magic: randomMagic,
-        types: randomTypes,
-        wins: 0
+        skills: randomSkills
         };
 }
 
-// Use the function to create 15 random Pokemons and store them in an array
-// Use loop to create 15 random Pokemons and store them in an array Pokemons
-
+// Create N random Pokemons and store them in an array
 const Pokemons = [];
-
 for (let i = 0; i < 15; i++) {
-
   Pokemons.push(createRandomPokemon());
 }
+
 console.log(Pokemons);
 
-// const randomPokemons = Array.from({ length: 15 }, createRandomPokemon);
-// console.log(randomPokemons);
+console.log ('---------------------------------------------------------------');
+//Create 50 random skills with damage and magic points
+const AttackSkill = [];
+for (let i = 0; i < skillNames.length; i++) {
+    const skill = {
+        skillName: skillNames[i],
+        damage: getRandomInt(0, 50),
+        magic: getRandomInt(0, 50)
+    };
+    AttackSkill.push(skill);
+}
 
+console.log(AttackSkill);

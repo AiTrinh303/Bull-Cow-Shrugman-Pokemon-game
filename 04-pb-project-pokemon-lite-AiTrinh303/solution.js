@@ -23,9 +23,6 @@ class Pokemon {
 
     showStatus() {
         console.log(`${this.name} - Health: ${this.health}, Magic: ${this.magic}`);
-        if (this.counter > 3) {
-            console.log(`${this.name} has won the battle!`);
-        }
     }
 
     getMagics() {
@@ -55,12 +52,14 @@ class Pokemon {
         }
 
         if (!this.isAlive()) {
-            console.log(`${this.name} cannot attack. It is already defeated.`);
+            console.log(`${this.name} cannot attack. It is already defeated !`);
+            console.log(`${opponent.name} has won the battle after ${this.counter} successful attacks!`)
             return;
         }
 
         if (!opponent.isAlive()) {
             console.log(`${opponent.name} is already defeated!`);
+            console.log(`${this.name} has won the battle after ${this.counter} successful attacks!`);
             return;
         }
 
