@@ -1,92 +1,31 @@
-# Bulls and Cows
+1. new Set(guess): This creates a Set from an array. Sets in JavaScript store unique values only, meaning if there are duplicate values in guess, only one unique value will be stored in the Set.
 
-In this project we will build a two player game that is called **Bulls and Cows**.
+2. new Set(guess).size: size is a property of Sets, returning the number of unique elements in the Set. So, new Set(guess).size will give the count of unique elements in the guess array.
 
-![cow icon](assets/cow.svg) ![bull icon](assets/bull.svg)
+3. level: This is a variable or a specific number value that is not provided in this code snippet.
 
-## Rules
-
-One of the players comes up with a secret number, and the other player tries to guess it.
-
-The secret number must consist of 4 digits and each digit must be **unique**.
+So new Set(guess).size !== level means "If the number of unique elements in the guess array is not equal to the value of level, then..." and there would be additional code logic executed if this condition is false.
 
 For example:
 
-- `1112` would **not** be an acceptable secret number
-- `1234` on the other hand is an acceptable value for the secret number, since each digit is unique
+If guess is [1, 2, 3, 4, 4] and level is 4, then new Set(guess) will be [1, 2, 3, 4], and its .size would be 4. So, the condition new Set(guess).size !== level is 4 !== 4 (false), meaning the number of unique elements in guess is equal to level.
 
-After each guess, the player will get a hint to help them guess better next time around.
+If guess is [1, 2, 3, 4] and level is 3, then new Set(guess) will be [1, 2, 3, 4], and its .size would be 4. The condition new Set(guess).size !== level is 4 !== 3 (true), meaning the number of unique elements in guess is not equal to level.
 
-The hint tells the player how many bulls and how many cows there were. What are bulls and cows?
-
-- If there are any matching digits and they are in their right positions, they are counted as *"bulls"*.
-- If in different positions, they are counted as *"cows"*.
-
-For example, with a secret number `4271`:
-
->
-    Player's try: 1234
-
-    Hint: 1 bull and 2 cows
+This code snippet is often used in intellectual games such as number guessing games, where players need to guess a sequence of numbers, and the system checks whether the number of unique elements guessed by the player matches a predefined number.
 
 
-How did we arrive at one bull and two cows?
-The bull is the number `2` as it is in the right position.
 
-The cows are `4` and `1`, as they exist in the secret number but they are not in the right position.
+A Set is a built-in object type in JavaScript that lets you store unique values of any type, whether primitive values or object references. Here's how it works:
 
-Do **not** disclose to the user which digit is a cow and which one is bull, just how many there are (if any).
+- **Creating a Set**: `new Set(guess)` creates a Set from the `guess` array. It automatically removes duplicate elements, so the Set will only contain unique elements.
 
-There is no limit on the number of guesses - guessing continues until the player figures out the other player's secret number.
+- **Checking Size**: `new Set(guess).size` returns the number of unique elements in the Set. This is useful for our game logic, as we want to compare this number to the `level`.
 
-Once the player has guessed the secret number correctly, display a message to congratulate them.
 
-## Getting the input from the terminal 
 
-Our game will be player vs computer. The computer will come up with a secret number and the player will be trying to guess it.
 
-To gather the player's input we will use an npm package called [`prompt-sync`](https://github.com/heapwolf/prompt-sync).
 
-We can use the package like so:
 
-```js
-// Import package
-const prompt = require('prompt-sync')({ sigint: true });
-// Use package
-let name = prompt('What is your name? '); // Note there is a space at the end, so the input does not stick to the question
-```
 
-Then the variable name will contain the value that the user entered in the terminal.
 
-Make sure to validate the input to a certain extent. For example:
-
-- it must exist (the user can simply hit enter, but we should not accept this as a valid guess)
-- it must be 4 digits
-- each of the 4 digits must be unique
-
-## Extra
-
-Let's make this game even better!
-
-If you have the core of the game up and running, 
-here are some cool features you can add next:
-
-- __Number of attempts__ to guess the secret number: There will be no limit of guessing, but we can keep track of how many attempts the player needed to solve the puzzle.
-- __Randomized message__ every time the user has no bulls and no cows: Instead of always showing the same message, let's create a collection of fun messages every time the guess hits no digits.
-- __User's name__: Let's get the player's name, if they want to share. You can then use the name in the congratulations and  failure messages and hints. If no name is provided, you can use a default like `Player` or `Stranger`. 
-- __Another round__: Once the player has guessed the number correctly, you can ask them to play another round if they want to and restart the game.
-- __Another round stats__: If the user plays multiple rounds, you display the total of games played and the number of attempts for each game.
-- __Maximum number of attempts__: If the user cannot guess in N attemps, they lose the game.
-- __Configurable game level__: The user can choose if they want to play easy or difficult mode. In easy mode, for example, there could be no lmit on the number of attempts, while the difficult level could have a limit.
-
-All the extras are only **optional** - add one or two if you want to have a bigger challenge, but only **after** the core of the game is working. Don't forget to push your code to version control, so you have a working copy to go back to if you need to.
-
-## Deadline
-
-You have ~3,5 days to make the game work.
-
-## Deliverables
-
-A repository containing your code.
-
-**Happy coding!** 🤓
