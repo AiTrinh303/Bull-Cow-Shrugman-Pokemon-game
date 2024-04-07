@@ -16,43 +16,41 @@ function createCashCounter() {
 
   return function (price, paidAmount) {
     let cashBackTotal = paidAmount - price;
+    console.log(cashBackTotal);
 
     let change = cashBox.reduce((acc, curr) => {
+      
+      let note = parseFloat(Object.keys(curr));//key of new Object
+      let availableNotes = Object.values(curr)[0];
+      let numberOfNotes = 0;//value of new Object
+
       //adding note or coin to cashBox
-      if (paidAmount === parseFloat(Object.keys(curr)[0])) {
+      if (paidAmount === note) {
         curr[paidAmount] += 1;
       }
-      //check if notes/coins fit into cashBack and how often
-      let cashCheck = cashBackTotal / parseFloat(Object.keys(curr)[0]);
-      //check if note fits in at least once and cashBox has the number of notes/coins available
+      //check if notes/coins fit into cashBackTotal and how often
+      let cashCheck = cashBackTotal / note;
       // console.log(cashCheck);
       
-      if (cashCheck >= 1 && Object.values(curr) >= 1) {
-        
-        let numberOfNotes = Math.trunc(cashCheck); //gets back integer of number of notes/coins = value of new object
-
-        let note = Object.keys(curr); // sets new key for object to add
-        
-        let newObject = { [note]: numberOfNotes };
-        acc.push(newObject);
-
-        cashBackTotal -= numberOfNotes * note; //reduces the cashBackTotal by the amount in new object
-        cashBackTotal = cashBackTotal.toFixed(2); //rounds up weird decimal points
-
-        curr[note] -= numberOfNotes; //updates cashBox
+      if (availableNotes < cashCheck && availableNotes >= 1) {
+        numberOfNotes = availableNotes;
+      }else if (cashCheck >= 1 && availableNotes >= 1) {
+        numberOfNotes = Math.trunc(cashCheck); //gets back integer of number of notes/coins = value of new object
       }
-      return acc;
+      let newObject = { [note]: numberOfNotes };
+      
+      if (numberOfNotes>0) {
+      acc.push(newObject);
+      cashBackTotal -= numberOfNotes * note; //reduces the cashBackTotal by the amount in new object
+      cashBackTotal = cashBackTotal.toFixed(2); //rounds up weird decimal points
+
+      curr[note] -= numberOfNotes; //updates cashBox
+      }return acc;
     }, []);
 
-    //Ai : check if there is enough note or coin in cashBox
-    let canContinue = cashBox.every(item => {
-        let denomination = parseFloat(Object.keys(item)[0]);
-        return (cashBackTotal / denomination >= 1 && Object.values(item)[0] >= 1);
-      });
-  
-      if (!canContinue) {
-        return { change: "Not enough change in cash box", cashBox };
-      }
+    if (cashBackTotal > 0) {
+      return "Not enough change available.";
+    }
     return {change, cashBox};
   };
 }
@@ -64,4 +62,6 @@ console.log(cashCounter(2.35, 5));
 console.log(cashCounter(23.90, 50));
 console.log(cashCounter(4.77, 20));
 console.log(cashCounter(2.35, 5));
-console.log(cashCounter(10, 560)); // Test case: Not enough change in cash box
+console.log(cashCounter(4.50,500));
+console.log(cashCounter(4.50,500));
+console.log(cashCounter(4.50,500));
