@@ -104,8 +104,6 @@ function levelSelector() {
   return levelArray;
 }
 
-
-
 // 4. Function to generate a random message from the array: cheerMessage
 function randomMessage() {
   const cheerMessage = [
@@ -224,13 +222,7 @@ function playTheGame(levelArray) {
           : `\nYou won after ${attempts} attempts with ${hintCount} hints! Very well done!`
       );
 
-    // If player has not won within maxAttempts
-    if (attempts > levelArray[1]) {
-      console.log(`\nSorry, you didn't guess the number within ${levelArray[1]} attempts. The number was ${secretNumber}.`);
-      
-    }  
-
-      // Ask if player wants to play again
+    // Ask if player wants to play again
       let playAgainTheGame = "";
       while (playAgainTheGame.toUpperCase() !== "Y" && playAgainTheGame.toUpperCase() !== "N") {
         playAgainTheGame = prompt("Do you want to play again? 'Y/N': ");
@@ -246,6 +238,10 @@ function playTheGame(levelArray) {
       }
       break;
     }
+     // 
+     if (attempts >= maxAttempts) {
+      console.log(`\nSorry, you didn't guess the number within ${levelArray[1]} attempts. The number was ${secretNumber}.`);      
+    }  
   }
 
 
