@@ -1,5 +1,6 @@
 const prompt = require('prompt-sync')({ sigint: true });
 
+
 // Function to generate a random 4-digit unique secret number
 function generateSecretNumber() {
   let digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];

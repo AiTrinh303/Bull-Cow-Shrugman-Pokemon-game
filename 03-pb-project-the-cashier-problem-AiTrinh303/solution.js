@@ -16,13 +16,23 @@ function createCashCounter() {
 
   return function (price, paidAmount) {
     let cashBackTotal = paidAmount - price;
+   
+    //if customer pays to little
+    if (cashBackTotal<=0) {
+      let missingAmount = price - paidAmount;
+      missingAmount = missingAmount.toFixed(2)
+      return `The customer needs to pay ${missingAmount} more!`
+    }
+
+
+    console.log(price, paidAmount);
     console.log(cashBackTotal);
 
     let change = cashBox.reduce((acc, curr) => {
       
-      let note = parseFloat(Object.keys(curr));//key of new Object
+      let note = parseFloat(Object.keys(curr));
       let availableNotes = Object.values(curr)[0];
-      let numberOfNotes = 0;//value of new Object
+      let numberOfNotes = 0;
 
       //adding note or coin to cashBox
       if (paidAmount === note) {
@@ -57,6 +67,7 @@ function createCashCounter() {
 
 const cashCounter = createCashCounter();
 
+console.log(cashCounter(4.77, 3));
 console.log(cashCounter(4.77, 20));
 console.log(cashCounter(2.35, 5));
 console.log(cashCounter(23.90, 50));
