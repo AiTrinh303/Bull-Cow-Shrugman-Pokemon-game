@@ -44,7 +44,7 @@ Famous Quotes [2]`);
       this.options[this.category].length
     ) {
       this.playedWords[this.category] = [];
-
+>>>>>>> 7fc51589b70be6a606e3a43f274e22f5826f5f79
     }
 
     // Get a new word if the current word has already been played
