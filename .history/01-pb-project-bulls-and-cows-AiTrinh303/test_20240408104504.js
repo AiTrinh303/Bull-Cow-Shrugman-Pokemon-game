@@ -224,12 +224,6 @@ function playTheGame(levelArray) {
           : `\nYou won after ${attempts} attempts with ${hintCount} hints! Very well done!`
       );
 
-    // If player has not won within maxAttempts
-    if (attempts > levelArray[1]) {
-      console.log(`\nSorry, you didn't guess the number within ${levelArray[1]} attempts. The number was ${secretNumber}.`);
-      
-    }  
-
       // Ask if player wants to play again
       let playAgainTheGame = "";
       while (playAgainTheGame.toUpperCase() !== "Y" && playAgainTheGame.toUpperCase() !== "N") {
@@ -248,19 +242,33 @@ function playTheGame(levelArray) {
     }
   }
 
-
+  // If player has not won within maxAttempts
+  if (attempts === levelArray[1]) {
+    console.log(`\nSorry, you didn't guess the number within ${levelArray[1]} attempts. The number was ${secretNumber}.`);
+    let playAgainTheGame = "";
+    while (playAgainTheGame.toUpperCase() !== "Y" && playAgainTheGame.toUpperCase() !== "N") {
+      playAgainTheGame = prompt("Do you want to play again? 'Y/N': ");
+      if (playAgainTheGame.toUpperCase() === "Y") {
+        console.clear();
+        start();
+      } else if (playAgainTheGame.toUpperCase() === "N") {
+        console.log("\nThanks for playing!");
+        return;
+      } else {
+        console.log("Invalid input. Please enter 'Y' or 'N'.");
+      }
+    }
+  }
 }
 
 // 10. Function to start the game
 function start() {
   
-  let playArray = levelSelector();
-  let level = playArray[0];
-  let maxAttempts = playArray[1];
+  let levelSelector();
   // while (levelSelector()[0] === false) {
   //   [selectedLevel, levelArray[1]] = levelSelector();
   // }
-  playTheGame([level, maxAttempts]);
+  playTheGame(level, levelArray[1]);
   playAgain();
 }
 

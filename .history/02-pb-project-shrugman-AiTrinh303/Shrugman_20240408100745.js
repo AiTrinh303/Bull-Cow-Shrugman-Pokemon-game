@@ -9,8 +9,7 @@ class Shrugman {
         }; //List of played words
         this.attempts = 10; // Number of attempts
         this.stats = []; // array containing the game stats
-        this.options = options; // Object containing the categories and words
-        
+        this.options = options; // Object containing the categories and word
         this.category = Object.keys(this.options)[0]; // Category of the current game
         this.currentWord = this.getSecretWord(this.category); // Current word to guess
     }

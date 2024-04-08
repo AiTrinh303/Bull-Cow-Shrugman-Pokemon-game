@@ -34,6 +34,8 @@ function getRandomNumber(level) {
 // 3. Function to select the level of the game
 function levelSelector() {
   let levelArray = [0, 0];
+  let [level, maxAttempts] = levelArray ;
+
   // Prompts the user to choose a level
   const userInput = prompt("Choose your level: easy (ES), easy+ (ES+), medium (M), medium+ (M+), hard (H), hard+ (H+), extreme (EX), or extreme+ (EX+): ");
 
@@ -41,63 +43,63 @@ function levelSelector() {
   switch (userInput.toLowerCase()) {
     case "easy":
     case "es":
-      levelArray[0] = 3; // 3-digit number
+      levelArray[10 = 3; // 3-digit number
       levelArray[1] = Infinity; // No limit on attempts
-      console.log(`\nEasy level: Guess a ${levelArray[0]}-digit number! No limit on attempts. Good luck!`);
+      console.log(`\nEasy level: Guess a ${level}-digit number! No limit on attempts. Good luck!`);
       break;
 
     case "easy+":
     case "es+":
-      levelArray[0] = 3; // 3-digit number
-      levelArray[1] = 15; // 15 attempts limit
-      console.log(`\nEasy+ level: Guess a ${levelArray[0]}-digit number! You have ${levelArray[1]} attempts. Good luck!`);
+      level = 3; // 3-digit number
+      maxAttempts = 15; // 15 attempts limit
+      console.log(`\nEasy+ level: Guess a ${level}-digit number! You have ${maxAttempts} attempts. Good luck!`);
       break;
 
     case "medium":
     case "m":
-      levelArray[0] = 4; // 4-digit number
-      levelArray[1] = Infinity; // No limit on attempts
-      console.log(`\nMedium level: Guess a ${levelArray[0]}-digit number! No limit on attempts. Good luck!`);
+      level = 4; // 4-digit number
+      maxAttempts = Infinity; // No limit on attempts
+      console.log(`\nMedium level: Guess a ${level}-digit number! No limit on attempts. Good luck!`);
       break;
 
     case "medium+":
     case "m+":
-      levelArray[0] = 4; // 4-digit number
-      levelArray[1] = 25; // 25 attempts limit
-      console.log(`\nMedium+ level: Guess a ${levelArray[0]}-digit number! You have ${levelArray[1]} attempts. Good luck!`);
+      level = 4; // 4-digit number
+      maxAttempts = 25; // 25 attempts limit
+      console.log(`\nMedium+ level: Guess a ${level}-digit number! You have ${maxAttempts} attempts. Good luck!`);
       break;
 
     case "hard":
     case "h":
-      levelArray[0] = 5; // 5-digit number
-      levelArray[1] = Infinity; // No limit on attempts
-      console.log(`\nHard level: Guess a ${levelArray[0]}-digit number! No limit on attempts. Good luck!`);
+      level = 5; // 5-digit number
+      maxAttempts = Infinity; // No limit on attempts
+      console.log(`\nHard level: Guess a ${level}-digit number! No limit on attempts. Good luck!`);
       break;
 
     case "hard+":
     case "h+":
-      levelArray[0] = 5; // 5-digit number
-      levelArray[1] = 35; // 35 attempts limit
-      console.log(`\nHard+ level: Guess a ${levelArray[0]}-digit number! You have ${levelArray[1]} attempts. Good luck!`);
+      level = 5; // 5-digit number
+      maxAttempts = 35; // 35 attempts limit
+      console.log(`\nHard+ level: Guess a ${level}-digit number! You have ${maxAttempts} attempts. Good luck!`);
       break;
 
     case "extreme":
     case "ex":
-      levelArray[0] = 6; // 6-digit number
-      levelArray[1] = Infinity; // No limit on attempts
-      console.log(`\nExtreme level: Guess a ${levelArray[0]}-digit number! No limit on attempts. Good luck!`);
+      level = 6; // 6-digit number
+      maxAttempts = Infinity; // No limit on attempts
+      console.log(`\nExtreme level: Guess a ${level}-digit number! No limit on attempts. Good luck!`);
       break;
 
     case "extreme+":
     case "ex+":
-      levelArray[0] = 6; // 6-digit number
-      levelArray[1] = 45; // 45 attempts limit
-      console.log(`\nExtreme+ level: Guess a ${levelArray[0]}-digit number! You have ${levelArray[1]} attempts. Good luck!`);
+      level = 6; // 6-digit number
+      maxAttempts = 45; // 45 attempts limit
+      console.log(`\nExtreme+ level: Guess a ${level}-digit number! You have ${maxAttempts} attempts. Good luck!`);
       break;
 
     default:
-      levelArray[0]= false;
-      levelArray[1] = 0;
+      level = false;
+      maxAttempts = 0;
       console.log("\nThe level should be: easy (ES), easy+ (ES+), medium (M), medium+ (M+), hard (H), hard+ (H+), extreme (EX), or extreme+ (EX+)!");
   }
 
@@ -177,11 +179,10 @@ function playTheGame(levelArray) {
   let attempts = 0;  // Track the number of attempts
   let hintCount = 0; // Track the number of hints used
   let guessedDigits = [];
-  let maxAttempts = levelArray[1];
 
   console.log("\n");
 
-  while (attempts < maxAttempts) {
+  while (attempts < levelArray[1]) {
     attempts++;
     let guess = prompt(`Enter your guess (${levelArray[0]} unique digits), or type 'hint' or 'h' to get a hint: `);
     guess = guess.trim();
@@ -224,12 +225,6 @@ function playTheGame(levelArray) {
           : `\nYou won after ${attempts} attempts with ${hintCount} hints! Very well done!`
       );
 
-    // If player has not won within maxAttempts
-    if (attempts > levelArray[1]) {
-      console.log(`\nSorry, you didn't guess the number within ${levelArray[1]} attempts. The number was ${secretNumber}.`);
-      
-    }  
-
       // Ask if player wants to play again
       let playAgainTheGame = "";
       while (playAgainTheGame.toUpperCase() !== "Y" && playAgainTheGame.toUpperCase() !== "N") {
@@ -248,19 +243,32 @@ function playTheGame(levelArray) {
     }
   }
 
-
+  // If player has not won within maxAttempts
+  if (attempts === levelArray[1]) {
+    console.log(`\nSorry, you didn't guess the number within ${levelArray[1]} attempts. The number was ${secretNumber}.`);
+    let playAgainTheGame = "";
+    while (playAgainTheGame.toUpperCase() !== "Y" && playAgainTheGame.toUpperCase() !== "N") {
+      playAgainTheGame = prompt("Do you want to play again? 'Y/N': ");
+      if (playAgainTheGame.toUpperCase() === "Y") {
+        console.clear();
+        start();
+      } else if (playAgainTheGame.toUpperCase() === "N") {
+        console.log("\nThanks for playing!");
+        return;
+      } else {
+        console.log("Invalid input. Please enter 'Y' or 'N'.");
+      }
+    }
+  }
 }
 
 // 10. Function to start the game
 function start() {
-  
-  let playArray = levelSelector();
-  let level = playArray[0];
-  let maxAttempts = playArray[1];
-  // while (levelSelector()[0] === false) {
-  //   [selectedLevel, levelArray[1]] = levelSelector();
-  // }
-  playTheGame([level, maxAttempts]);
+  let [selectedLevel, levelArray[1]] = levelSelector(levelArray);
+  while (selectedLevel === false) {
+    [selectedLevel, levelArray[1]] = levelSelector(levelArray);
+  }
+  playTheGame(level, levelArray[1]);
   playAgain();
 }
 

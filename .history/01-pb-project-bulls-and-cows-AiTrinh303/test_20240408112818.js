@@ -225,10 +225,10 @@ function playTheGame(levelArray) {
       );
 
     // If player has not won within maxAttempts
-    if (attempts > levelArray[1]) {
-      console.log(`\nSorry, you didn't guess the number within ${levelArray[1]} attempts. The number was ${secretNumber}.`);
-      
-    }  
+  if (attempts > levelArray[1]) {
+    console.log(`\nSorry, you didn't guess the number within ${levelArray[1]} attempts. The number was ${secretNumber}.`);
+    
+   }  
 
       // Ask if player wants to play again
       let playAgainTheGame = "";

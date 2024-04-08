@@ -36,10 +36,7 @@ const game = new Shrugman(options);
 function playGame() {
     console.log(chalk.yellow('Welcome to Shrugman! Guess the word to win, or make 10 incorrect guesses to lose.'));
     
-// const categoryy = promptSync(chalk.white('Choose a category (movies or books or ): '));  
-// if (categoryy === 'movies') {
-//     categoryChoice = op
-
+// const categoryy = promptSync(chalk.white('Choose a category (movies or books or ): '));    
 const categoryChoice = options.movies;
 
     game.setCategory(categoryChoice);
