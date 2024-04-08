@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "pb-project-shrugman",
   "version": "1.0.0",
   "description": "",
@@ -10,14 +9,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "prompt-sync": "^4.2.0"
-  },
-  "type": "module"
-=======
+
+  "type": "module",
   "dependencies": {
     "chalk": "^5.3.0",
     "prompt-sync": "^4.2.0"
   }
->>>>>>> 32c720fe7930161002b09d40832bad2b2e8722b1
 }

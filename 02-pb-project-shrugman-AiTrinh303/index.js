@@ -12,22 +12,23 @@ const options = {
         'Avatar', 'Inception', 'Titanic', 'The Godfather', 'Forrest Gump',
         'Saving Private Ryan', 'Braveheart', 'The Blind Side', 'Love Actually',
         'Onward', 'The Invisible Man', 'The Night Clerk', 'Vanguard'
-     ]
-    // books: [
-    //     'Harry Potter', 'Lord of the Rings', 'The Great Gatsby', 'Death In The Clouds',
-    //     'Sparkling Cyanide', 'The Body in the Library', 'The Rose and the Yew Tree',
-    //     'Murder in Mesopotamia', 'Murder on the Orient Express', 'All Quiet on the Western Front',
-    //     'Pride and Prejudice', 'And Then There Were None', 'The ABC Murders',
-    //     'Arch of Triumph: A Novel of a Man Without a Country', 'A Time to Love and a Time to Die',
-    //     'Three Comrades', 'My Name Is Red', 'Eleven Minutes', 'A Strangeness in My Mind',
-    //     'The Catcher in the Rye', 'Harry Potter and the Goblet of Fire'
-    // ],
-    // quotes: [
-    //     'To be or not to be', 'May the Force be with you', 'To be or not to be, that is the question.',
-    //     'I have a dream.', 'May the Force be with you.', 'You shall not pass!', 'Houston, we have a problem.',
-    //     'Elementary, my dear Watson.', 'I am your father.', 'Go ahead, make my day.'
-    // ]
+     ],
+    books: [
+        'Harry Potter', 'Lord of the Rings', 'The Great Gatsby', 'Death In The Clouds',
+        'Sparkling Cyanide', 'The Body in the Library', 'The Rose and the Yew Tree',
+        'Murder in Mesopotamia', 'Murder on the Orient Express', 'All Quiet on the Western Front',
+        'Pride and Prejudice', 'And Then There Were None', 'The ABC Murders',
+        'Arch of Triumph: A Novel of a Man Without a Country', 'A Time to Love and a Time to Die',
+        'Three Comrades', 'My Name Is Red', 'Eleven Minutes', 'A Strangeness in My Mind',
+        'The Catcher in the Rye', 'Harry Potter and the Goblet of Fire'
+    ],
+    quotes: [
+        'To be or not to be', 'May the Force be with you', 'To be or not to be, that is the question.',
+        'I have a dream.', 'May the Force be with you.', 'You shall not pass!', 'Houston, we have a problem.',
+        'Elementary, my dear Watson.', 'I am your father.', 'Go ahead, make my day.'
+    ]
 };
+    
 
 // Create a new instance of the Shrugman game
 const game = new Shrugman(options);
@@ -36,13 +37,17 @@ const game = new Shrugman(options);
 function playGame() {
     console.log(chalk.yellow('Welcome to Shrugman! Guess the word to win, or make 10 incorrect guesses to lose.'));
     
+<<<<<<< HEAD
 // const categoryy = promptSync(chalk.white('Choose a category (movies or books or ): '));  
 // if (categoryy === 'movies') {
 //     categoryChoice = op
 
 const categoryChoice = options.movies;
+=======
+>>>>>>> 7fc51589b70be6a606e3a43f274e22f5826f5f79
 
-    game.setCategory(categoryChoice);
+
+    game.setCategory();
     
 
     console.log(chalk.cyan('\nCategory:', game.category));
