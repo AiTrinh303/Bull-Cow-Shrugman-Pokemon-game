@@ -1,8 +1,8 @@
 const prompt = require('prompt-sync')({ sigint: true });
 
-import chalk from 'chalk';
+// import chalk from 'chalk';
 
-console.log(chalk.blue('Hello world!'));
+// console.log(chalk.blue('Hello world!'));
 
 // Function to generate a random 4-digit unique secret number
 function generateSecretNumber() {
